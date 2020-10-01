@@ -548,7 +548,7 @@
 //
 // For Z set the number of stepper drivers
 //
-#define NUM_Z_STEPPER_DRIVERS 1   // (1-4) Z options change based on how many
+#define NUM_Z_STEPPER_DRIVERS 2   // (1-4) Z options change based on how many
 
 #if NUM_Z_STEPPER_DRIVERS > 1
   //#define Z_MULTI_ENDSTOPS
@@ -1024,7 +1024,7 @@
 // @section lcd
 
 #if EITHER(ULTIPANEL, EXTENSIBLE_UI)
-  #define MANUAL_FEEDRATE { 50*60, 50*60, 4*60, 2*60 } // (mm/min) Feedrates for manual moves along X, Y, Z, E from panel
+  #define MANUAL_FEEDRATE { 50*60, 50*60, 4*60, 60 } // (mm/min) Feedrates for manual moves along X, Y, Z, E from panel
   #define SHORT_MANUAL_Z_MOVE 0.025 // (mm) Smallest manual Z move (< 0.1mm)
   #if ENABLED(ULTIPANEL)
     #define MANUAL_E_MOVES_RELATIVE // Display extruder move distance rather than "position"
@@ -1208,10 +1208,10 @@
   #if ENABLED(SDCARD_SORT_ALPHA)
     #define SDSORT_LIMIT       40     // Maximum number of sorted items (10-256). Costs 27 bytes each.
     #define FOLDER_SORTING     -1     // -1=above  0=none  1=below
-    #define SDSORT_GCODE       false  // Allow turning sorting on/off with LCD and M34 G-code.
-    #define SDSORT_USES_RAM    false  // Pre-allocate a static array for faster pre-sorting.
+    #define SDSORT_GCODE       true  // Allow turning sorting on/off with LCD and M34 G-code.
+    #define SDSORT_USES_RAM    true  // Pre-allocate a static array for faster pre-sorting.
     #define SDSORT_USES_STACK  false  // Prefer the stack for pre-sorting to give back some SRAM. (Negated by next 2 options.)
-    #define SDSORT_CACHE_NAMES false  // Keep sorted items in RAM longer for speedy performance. Most expensive option.
+    #define SDSORT_CACHE_NAMES true  // Keep sorted items in RAM longer for speedy performance. Most expensive option.
     #define SDSORT_DYNAMIC_RAM false  // Use dynamic allocation (within SD menus). Least expensive option. Set SDSORT_LIMIT before use!
     #define SDSORT_CACHE_VFATS 2      // Maximum number of 13-byte VFAT entries to use for sorting.
                                       // Note: Only affects SCROLL_LONG_FILENAMES with SDSORT_CACHE_NAMES but not SDSORT_DYNAMIC_RAM.
@@ -1305,7 +1305,7 @@
    *
    * :[ 'LCD', 'ONBOARD', 'CUSTOM_CABLE' ]
    */
-  //#define SDCARD_CONNECTION LCD
+  #define SDCARD_CONNECTION ONBOARD
 
 #endif // SDSUPPORT
 
@@ -1621,7 +1621,7 @@
 //#define LIN_ADVANCE
 #if ENABLED(LIN_ADVANCE)
   //#define EXTRA_LIN_ADVANCE_K // Enable for second linear advance constants
-  #define LIN_ADVANCE_K 0.22    // Unit: mm compression per 1mm/s extruder speed
+  #define LIN_ADVANCE_K 0.0    // Unit: mm compression per 1mm/s extruder speed
   //#define LA_DEBUG            // If enabled, this will generate debug information output over USB.
   //#define EXPERIMENTAL_SCURVE // Enable this option to permit S-Curve Acceleration
 #endif
@@ -2061,7 +2061,7 @@
                                                   // This short retract is done immediately, before parking the nozzle.
   #define FILAMENT_CHANGE_UNLOAD_FEEDRATE     10  // (mm/s) Unload filament feedrate. This can be pretty fast.
   #define FILAMENT_CHANGE_UNLOAD_ACCEL        25  // (mm/s^2) Lower acceleration may allow a faster feedrate.
-  #define FILAMENT_CHANGE_UNLOAD_LENGTH      100  // (mm) The length of filament for a complete unload.
+  #define FILAMENT_CHANGE_UNLOAD_LENGTH      400  // (mm) The length of filament for a complete unload.
                                                   //   For Bowden, the full length of the tube and nozzle.
                                                   //   For direct drive, the full length of the nozzle.
                                                   //   Set to 0 for manual unloading.
@@ -2070,7 +2070,7 @@
                                                   // 0 to disable start loading and skip to fast load only
   #define FILAMENT_CHANGE_FAST_LOAD_FEEDRATE   6  // (mm/s) Load filament feedrate. This can be pretty fast.
   #define FILAMENT_CHANGE_FAST_LOAD_ACCEL     25  // (mm/s^2) Lower acceleration may allow a faster feedrate.
-  #define FILAMENT_CHANGE_FAST_LOAD_LENGTH     0  // (mm) Load length of filament, from extruder gear to nozzle.
+  #define FILAMENT_CHANGE_FAST_LOAD_LENGTH     350  // (mm) Load length of filament, from extruder gear to nozzle.
                                                   //   For Bowden, the full length of the tube and nozzle.
                                                   //   For direct drive, the full length of the nozzle.
   //#define ADVANCED_PAUSE_CONTINUOUS_PURGE       // Purge continuously up to the purge length until interrupted.
@@ -2231,7 +2231,7 @@
   #define INTERPOLATE       true  // Interpolate X/Y/Z_MICROSTEPS to 256
 
   #if AXIS_IS_TMC(X)
-    #define X_CURRENT       800        // (mA) RMS current. Multiply by 1.414 for peak current.
+    #define X_CURRENT       650        // (mA) RMS current. Multiply by 1.414 for peak current.
     #define X_CURRENT_HOME  X_CURRENT  // (mA) RMS current for sensorless homing
     #define X_MICROSTEPS     16    // 0..256
     #define X_RSENSE          0.11
@@ -2247,7 +2247,7 @@
   #endif
 
   #if AXIS_IS_TMC(Y)
-    #define Y_CURRENT       800
+    #define Y_CURRENT       650
     #define Y_CURRENT_HOME  Y_CURRENT
     #define Y_MICROSTEPS     16
     #define Y_RSENSE          0.11
@@ -2255,7 +2255,7 @@
   #endif
 
   #if AXIS_IS_TMC(Y2)
-    #define Y2_CURRENT      800
+    #define Y2_CURRENT      650
     #define Y2_CURRENT_HOME Y2_CURRENT
     #define Y2_MICROSTEPS    16
     #define Y2_RSENSE         0.11
@@ -2263,7 +2263,7 @@
   #endif
 
   #if AXIS_IS_TMC(Z)
-    #define Z_CURRENT       800
+    #define Z_CURRENT       650
     #define Z_CURRENT_HOME  Z_CURRENT
     #define Z_MICROSTEPS     16
     #define Z_RSENSE          0.11
@@ -2271,7 +2271,7 @@
   #endif
 
   #if AXIS_IS_TMC(Z2)
-    #define Z2_CURRENT      800
+    #define Z2_CURRENT      650
     #define Z2_CURRENT_HOME Z2_CURRENT
     #define Z2_MICROSTEPS    16
     #define Z2_RSENSE         0.11
@@ -2441,7 +2441,7 @@
    * Define you own with
    * { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
    */
-  #define CHOPPER_TIMING CHOPPER_DEFAULT_12V
+  #define CHOPPER_TIMING CHOPPER_DEFAULT_24V
 
   /**
    * Monitor Trinamic drivers
@@ -3420,7 +3420,7 @@
   // For AVR enable the UART port used for the MMU. (e.g., mmuSerial)
   // For 32-bit boards check your HAL for available serial ports. (e.g., Serial2)
   #define MMU2_SERIAL_PORT 2
-  #define MMU2_SERIAL mmuSerial
+  #define MMU2_SERIAL internalSerial
 
   // Use hardware reset for MMU if a pin is defined for it
   //#define MMU2_RST_PIN 23
